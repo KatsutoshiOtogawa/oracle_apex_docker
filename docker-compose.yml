@@ -1,0 +1,28 @@
+version: '3.8'
+
+volumes:
+  oracle-data:
+
+services:
+
+  apex:
+    image: container-registry.oracle.com/database/ords:21.4.1
+    restart: unless-stopped
+    ports:
+      - 8181:8181
+    depends_on:
+      - db
+    volumes:
+      - ./ords_volume/:/opt/oracle/variables:ro
+  db:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    restart: unless-stopped
+    container_name: oracle
+    shm_size: 2g
+    ports:
+      - 1521:1521
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    environment:
+      - ORACLE_PWD=manager
+      - ORACLE_CHARACTERSET=AL32UTF8

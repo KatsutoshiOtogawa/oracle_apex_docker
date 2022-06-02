@@ -1,0 +1,1 @@
+CONN_STRING=sys/manager@db:1521/XEPDB1
